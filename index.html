@@ -1,0 +1,2483 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>ParallelYou™ | Clone Yourself. Scale Your Authority. Never Burn Out.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="ParallelYou™ helps founders, consultants, and creators build an AI powered EchoClone™ of their thinking and voice, so they can scale authority without burning out or becoming the bottleneck.">
+
+    <link rel="icon" type="image/png" href="https://i.imgur.com/EY0fRNK.png">
+
+    <script src="/_sdk/element_sdk.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      body {
+        box-sizing: border-box;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html, body {
+        height: 100%;
+        width: 100%;
+      }
+
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: #000000;
+        color: #999999;
+        line-height: 1.6;
+        overflow-x: hidden;
+        font-weight: 400;
+        letter-spacing: -0.01em;
+      }
+
+      .app-wrapper {
+        width: 100%;
+        min-height: 100%;
+        background: #000000;
+      }
+
+      .page-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 40px;
+      }
+
+      .narrow-container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .ultra-narrow {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      /* STICKY URGENCY BANNER */
+      .urgency-banner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background: linear-gradient(90deg, #FF4757, #FF6B7A);
+        color: #000000;
+        text-align: center;
+        padding: 14px 20px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 2.5px;
+        z-index: 9999;
+        transform: translateY(-100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 20px rgba(255, 71, 87, 0.4);
+        text-transform: uppercase;
+      }
+
+      .urgency-banner.visible {
+        transform: translateY(0);
+      }
+
+      .urgency-banner a {
+        color: #000000;
+        text-decoration: underline;
+        margin-left: 24px;
+        font-weight: 800;
+        transition: opacity 0.3s ease;
+      }
+
+      .urgency-banner a:hover {
+        opacity: 0.8;
+      }
+
+      /* EXIT INTENT POPUP */
+      .exit-popup-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.95);
+        z-index: 10000;
+        backdrop-filter: blur(10px);
+        animation: fadeIn 0.3s ease;
+        overflow-y: auto;
+        padding: 20px;
+      }
+
+      .exit-popup-overlay.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .exit-popup {
+        background: linear-gradient(135deg, rgba(26, 26, 26, 0.98) 0%, rgba(0, 0, 0, 0.98) 100%);
+        border: 2px solid rgba(255, 71, 87, 0.3);
+        border-radius: 24px;
+        padding: 56px 48px;
+        max-width: 600px;
+        width: 100%;
+        position: relative;
+        box-shadow: 0 20px 100px rgba(255, 71, 87, 0.2);
+        animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      @keyframes popIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .exit-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 71, 87, 0.15);
+        border: 1px solid rgba(255, 71, 87, 0.4);
+        color: #FF4757;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .exit-close:hover {
+        background: rgba(255, 71, 87, 0.25);
+        transform: rotate(90deg);
+      }
+
+      .exit-close:focus {
+        outline: 2px solid rgba(255, 71, 87, 0.6);
+        outline-offset: 3px;
+      }
+
+      .exit-emoji {
+        font-size: 56px;
+        margin-bottom: 24px;
+        display: block;
+        text-align: center;
+      }
+
+      .exit-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 38px;
+        font-weight: 300;
+        color: #FFFFFF;
+        text-align: center;
+        margin-bottom: 20px;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+      }
+
+      .exit-text {
+        font-size: 18px;
+        line-height: 1.7;
+        color: #CCCCCC;
+        text-align: center;
+        margin-bottom: 24px;
+      }
+
+      .exit-cta {
+        display: block;
+        background: #FF4757;
+        color: #000000;
+        padding: 20px 48px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 14px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-decoration: none;
+        text-align: center;
+        box-shadow: 0 8px 40px rgba(255, 71, 87, 0.4);
+        margin: 0 auto;
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .exit-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 50px rgba(255, 71, 87, 0.5);
+        background: #FF5A6B;
+      }
+
+      .exit-cta:focus {
+        outline: 3px solid rgba(255, 71, 87, 0.4);
+        outline-offset: 3px;
+      }
+
+      .exit-disclaimer {
+        font-size: 13px;
+        color: #999999;
+        text-align: center;
+        margin-top: 24px;
+        font-style: italic;
+      }
+
+      /* MOBILE STICKY CTA */
+      .mobile-sticky-cta {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background: linear-gradient(135deg, #FF4757, #FF6B7A);
+        padding: 16px 20px;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+        z-index: 9998;
+        animation: slideUp 0.4s ease;
+      }
+
+      @media (max-width: 768px) {
+        .mobile-sticky-cta {
+          display: block;
+        }
+
+        .exit-popup {
+          padding: 40px 32px;
+          margin: 20px;
+        }
+
+        .exit-title {
+          font-size: 32px;
+        }
+
+        .exit-text {
+          font-size: 16px;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(100%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+
+      .mobile-sticky-cta a {
+        display: block;
+        background: #000000;
+        color: #FF4757;
+        padding: 16px 24px;
+        text-align: center;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 2px;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+      }
+
+      .mobile-sticky-cta a:hover {
+        background: #1A1A1A;
+      }
+
+      /* INLINE CTA SECTIONS */
+      .inline-cta-section {
+        text-align: center;
+        margin-top: 56px;
+        padding: 48px;
+        background: rgba(26, 26, 26, 0.4);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 71, 87, 0.15);
+        transition: all 0.4s ease;
+      }
+
+      .inline-cta-section:hover {
+        border-color: rgba(255, 71, 87, 0.3);
+        box-shadow: 0 8px 40px rgba(255, 71, 87, 0.1);
+      }
+
+      .inline-cta-section p {
+        font-size: 20px;
+        color: #FFFFFF;
+        margin-bottom: 24px;
+        font-weight: 600;
+      }
+
+      .inline-cta-section .cta-subtext {
+        font-size: 14px;
+        color: #999999;
+        margin-top: 16px;
+        font-style: italic;
+        font-weight: 400;
+      }
+
+      /* HEADER */
+      .header {
+        padding: 20px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(20px);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .header-inner {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo-img {
+        height: 32px;
+        width: auto;
+        display: block;
+      }
+
+      /* HERO */
+      .hero-section {
+        padding: 120px 0 140px;
+        text-align: center;
+        position: relative;
+      }
+
+      .pre-header {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        color: #666666;
+        margin-bottom: 48px;
+        opacity: 0.8;
+      }
+
+      .hero-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 96px;
+        font-weight: 300;
+        line-height: 1.05;
+        margin-bottom: 40px;
+        letter-spacing: -0.04em;
+        color: #FFFFFF;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-subtitle {
+        font-size: 26px;
+        color: #CCCCCC;
+        margin-bottom: 56px;
+        font-weight: 300;
+        max-width: 740px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.5;
+        letter-spacing: -0.01em;
+      }
+
+      .cta-wrapper {
+        margin-bottom: 32px;
+      }
+
+      .btn-primary {
+        background: #FF4757;
+        color: #000000;
+        padding: 24px 64px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 14px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 40px rgba(255, 71, 87, 0.4), 0 0 0 1px rgba(255, 71, 87, 0.1);
+        text-decoration: none;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 50px rgba(255, 71, 87, 0.5), 0 0 0 1px rgba(255, 71, 87, 0.2);
+        background: #FF5A6B;
+      }
+
+      .btn-primary:active {
+        transform: translateY(0);
+      }
+
+      .btn-primary:focus {
+        outline: 3px solid rgba(255, 71, 87, 0.4);
+        outline-offset: 3px;
+      }
+
+      .scarcity-line {
+        font-size: 16px;
+        color: #FF4757;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        animation: pulse 2s infinite;
+        display: inline-block;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.75; }
+      }
+
+      /* FOUNDING RATE CARD */
+      .founding-hero-card {
+        background: linear-gradient(135deg, rgba(255, 71, 87, 0.08) 0%, rgba(255, 71, 87, 0.02) 100%);
+        border: 2px solid rgba(255, 71, 87, 0.25);
+        border-radius: 20px;
+        padding: 48px 56px;
+        max-width: 800px;
+        margin: 80px auto 0;
+        text-align: center;
+        box-shadow: 0 0 80px rgba(255, 71, 87, 0.15);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .founding-hero-card::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(135deg, rgba(255, 71, 87, 0.3), rgba(93, 253, 203, 0.15));
+        border-radius: 20px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      .founding-hero-card:hover::before {
+        opacity: 1;
+      }
+
+      .founding-badge {
+        display: inline-block;
+        padding: 8px 20px;
+        border-radius: 100px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #000000;
+        background: #FF4757;
+        margin-bottom: 24px;
+      }
+
+      .founding-amount {
+        font-size: 48px;
+        font-weight: 300;
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        color: #FFFFFF;
+        margin-bottom: 16px;
+        letter-spacing: -0.03em;
+      }
+
+      .founding-subtext {
+        font-size: 17px;
+        color: #CCCCCC;
+        margin-bottom: 0;
+        font-weight: 400;
+        line-height: 1.6;
+      }
+
+      .founding-metrics {
+        margin-top: 40px;
+        padding-top: 40px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .progress-container {
+        width: 100%;
+      }
+
+      .progress-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .progress-label {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: #999999;
+      }
+
+      .progress-count {
+        font-size: 20px;
+        font-weight: 700;
+        color: #FF4757;
+        text-shadow: 0 0 20px rgba(255, 71, 87, 0.3);
+      }
+
+      .progress-bar-bg {
+        width: 100%;
+        height: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 100px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .progress-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #FF4757, #FF6B7A);
+        border-radius: 100px;
+        position: relative;
+        transition: width 1s ease;
+        box-shadow: 0 0 20px rgba(255, 71, 87, 0.6);
+      }
+
+      .progress-bar-fill::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        animation: shimmer 2s infinite;
+      }
+
+      @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      .progress-footer {
+        margin-top: 12px;
+        text-align: center;
+      }
+
+      .spots-remaining {
+        font-size: 14px;
+        font-weight: 600;
+        color: #FF4757;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      /* SECTIONS */
+      .section-spacing {
+        padding: 100px 0;
+      }
+
+      .section-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 56px;
+        font-weight: 300;
+        color: #FFFFFF;
+        text-align: center;
+        margin-bottom: 24px;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+      }
+
+      .section-subtitle {
+        text-align: center;
+        font-size: 20px;
+        color: #999999;
+        margin-bottom: 72px;
+        font-weight: 400;
+        max-width: 680px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* VALUE CARD */
+      .value-card {
+        background: rgba(26, 26, 26, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        padding: 64px;
+        backdrop-filter: blur(20px);
+        margin-bottom: 40px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .value-card:hover {
+        border-color: rgba(255, 71, 87, 0.2);
+        box-shadow: 0 8px 50px rgba(255, 71, 87, 0.08);
+        transform: translateY(-4px);
+      }
+
+      .value-text {
+        font-size: 21px;
+        line-height: 1.7;
+        color: #CCCCCC;
+        margin-bottom: 24px;
+      }
+
+      .highlight-text {
+        font-size: 22px;
+        line-height: 1.6;
+        color: #FF4757;
+        font-weight: 500;
+        margin-top: 40px;
+        padding-top: 40px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      /* CLONE SHOWCASE */
+      .clone-showcase {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+        align-items: center;
+        background: rgba(26, 26, 26, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        padding: 64px;
+        backdrop-filter: blur(20px);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .clone-showcase:hover {
+        border-color: rgba(255, 71, 87, 0.2);
+        box-shadow: 0 8px 50px rgba(255, 71, 87, 0.08);
+      }
+
+      .clone-text-content {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .clone-image-grid {
+        display: grid;
+        gap: 20px;
+      }
+
+      .clone-image-wrapper {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 12px;
+      }
+
+      .clone-image {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 12px;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      /* INCLUSION GRID */
+      .inclusion-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+        margin-top: 64px;
+      }
+
+      .inclusion-item {
+        background: rgba(26, 26, 26, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        padding: 48px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .inclusion-item:hover {
+        border-color: rgba(255, 71, 87, 0.2);
+        transform: translateY(-4px);
+      }
+
+      .inclusion-icon {
+        font-size: 32px;
+        margin-bottom: 12px;
+        display: block;
+      }
+
+      .inclusion-number {
+        font-size: 14px;
+        font-weight: 700;
+        color: #FF4757;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .inclusion-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #FFFFFF;
+        margin-bottom: 12px;
+        line-height: 1.3;
+      }
+
+      .inclusion-body {
+        font-size: 17px;
+        line-height: 1.6;
+        color: #999999;
+        margin-bottom: 16px;
+      }
+
+      .inclusion-outcome {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #5DFDCB;
+        font-weight: 500;
+      }
+
+      /* PHASE TIMELINE */
+      .phase-timeline {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+        margin-top: 64px;
+        position: relative;
+      }
+
+      .phase-timeline::before {
+        content: '';
+        position: absolute;
+        top: 60px;
+        left: 16.66%;
+        right: 16.66%;
+        height: 2px;
+        background: linear-gradient(90deg, rgba(255, 71, 87, 0.3), rgba(93, 253, 203, 0.3));
+        z-index: 0;
+      }
+
+      .phase-item {
+        background: rgba(26, 26, 26, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        padding: 40px 32px;
+        position: relative;
+        z-index: 1;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .phase-item:hover {
+        border-color: rgba(255, 71, 87, 0.2);
+        transform: translateY(-8px);
+      }
+
+      .phase-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        background: linear-gradient(135deg, #FF4757, #FF6B7A);
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #000000;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+      }
+
+      .phase-title {
+        font-size: 26px;
+        font-weight: 600;
+        color: #FFFFFF;
+        margin-bottom: 16px;
+        line-height: 1.3;
+      }
+
+      .phase-description {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #999999;
+        margin-bottom: 24px;
+      }
+
+      .phase-role {
+        font-size: 13px;
+        font-weight: 600;
+        color: #5DFDCB;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 8px;
+      }
+
+      .phase-detail {
+        font-size: 15px;
+        line-height: 1.5;
+        color: #CCCCCC;
+      }
+
+      .day-in-life {
+        margin-top: 48px;
+        background: rgba(26, 26, 26, 0.5);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 32px 32px 36px;
+      }
+
+      .day-in-life-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #5DFDCB;
+        margin-bottom: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+      }
+
+      .day-in-life-text {
+        font-size: 17px;
+        line-height: 1.7;
+        color: #CCCCCC;
+      }
+
+      /* TESTIMONIALS */
+      .testimonial-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+        margin-top: 64px;
+      }
+
+      .testimonial-card {
+        background: rgba(26, 26, 26, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        padding: 40px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .testimonial-card:hover {
+        border-color: rgba(255, 71, 87, 0.2);
+        transform: translateY(-4px);
+      }
+
+      .quote-mark {
+        font-size: 56px;
+        line-height: 1;
+        color: #FF4757;
+        font-family: Georgia, serif;
+        margin-bottom: 20px;
+        font-weight: 400;
+        opacity: 0.5;
+      }
+
+      .testimonial-text {
+        font-size: 17px;
+        line-height: 1.6;
+        color: #CCCCCC;
+        margin-bottom: 28px;
+        font-style: italic;
+      }
+
+      .testimonial-initial {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #FF4757, #FF6B7A);
+        border-radius: 50%;
+        text-align: center;
+        line-height: 40px;
+        font-size: 18px;
+        font-weight: 700;
+        color: #000000;
+        margin-bottom: 12px;
+      }
+
+      .testimonial-name {
+        font-size: 16px;
+        font-weight: 700;
+        color: #FFFFFF;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .testimonial-result {
+        font-size: 14px;
+        color: #5DFDCB;
+        font-weight: 600;
+      }
+
+      /* NOT FOR */
+      .not-for-list {
+        max-width: 700px;
+        margin: 48px auto 0;
+      }
+
+      .not-for-item {
+        font-size: 19px;
+        line-height: 1.7;
+        color: #999999;
+        margin: 0 0 28px 0;
+        padding-left: 56px;
+        position: relative;
+      }
+
+      .not-for-item::before {
+        content: '✗';
+        position: absolute;
+        left: 0;
+        font-size: 28px;
+        color: #FF4757;
+        font-weight: 700;
+      }
+
+      /* WHO FOR GRID */
+      .who-for-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+        margin-top: 64px;
+      }
+
+      .who-for-card {
+        background: rgba(26, 26, 26, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        padding: 40px;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .who-for-card:hover {
+        border-color: rgba(255, 71, 87, 0.2);
+        transform: translateY(-4px);
+      }
+
+      .who-for-icon {
+        font-size: 56px;
+        margin-bottom: 24px;
+        display: block;
+      }
+
+      .who-for-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #FFFFFF;
+        margin-bottom: 16px;
+        line-height: 1.3;
+      }
+
+      .who-for-desc {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #999999;
+      }
+
+      /* WALKAWAY GRID */
+      .walkaway-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+        margin-top: 64px;
+      }
+
+      .walkaway-card {
+        background: rgba(26, 26, 26, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        padding: 48px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .walkaway-card:hover {
+        border-color: rgba(255, 71, 87, 0.2);
+        transform: translateY(-4px);
+      }
+
+      .walkaway-number {
+        font-size: 14px;
+        font-weight: 700;
+        color: #FF4757;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .walkaway-icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+        display: block;
+      }
+
+      .walkaway-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #FFFFFF;
+        margin-bottom: 16px;
+        line-height: 1.3;
+      }
+
+      .walkaway-desc {
+        font-size: 17px;
+        line-height: 1.6;
+        color: #999999;
+        margin-bottom: 24px;
+      }
+
+      .walkaway-before-after {
+        padding-top: 24px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .ba-item {
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 8px;
+      }
+
+      .ba-label {
+        font-weight: 600;
+        color: #999999;
+      }
+
+      .ba-value {
+        color: #CCCCCC;
+      }
+
+      /* TRUST BADGES */
+      .trust-badges {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        margin-top: 56px;
+        padding: 40px;
+        background: rgba(26, 26, 26, 0.3);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .trust-badge {
+        text-align: center;
+      }
+
+      .trust-icon {
+        font-size: 32px;
+        margin-bottom: 12px;
+        display: block;
+      }
+
+      .trust-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #FFFFFF;
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .trust-value {
+        font-size: 12px;
+        color: #999999;
+      }
+
+      /* GUARANTEE */
+      .guarantee-section {
+        background: rgba(26, 26, 26, 0.4);
+        border: 2px solid rgba(93, 253, 203, 0.2);
+        border-radius: 20px;
+        padding: 56px 64px;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .guarantee-badge-top {
+        display: inline-block;
+        padding: 6px 16px;
+        border-radius: 100px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #000000;
+        background: #5DFDCB;
+        margin-bottom: 24px;
+      }
+
+      .guarantee-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 42px;
+        font-weight: 300;
+        color: #FFFFFF;
+        margin-bottom: 20px;
+        letter-spacing: -0.02em;
+      }
+
+      .guarantee-text {
+        font-size: 18px;
+        line-height: 1.7;
+        color: #CCCCCC;
+      }
+
+      /* INVESTMENT SECTION */
+      .investment-card {
+        background: rgba(26, 26, 26, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 20px;
+        padding: 64px;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .investment-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 42px;
+        font-weight: 300;
+        color: #FFFFFF;
+        margin-bottom: 24px;
+        letter-spacing: -0.02em;
+      }
+
+      .investment-text {
+        font-size: 19px;
+        line-height: 1.7;
+        color: #CCCCCC;
+        margin-bottom: 24px;
+      }
+
+      .investment-note {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #999999;
+        font-style: italic;
+        margin-top: 32px;
+        padding-top: 32px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      /* FINAL CTA */
+      .final-cta-section {
+        background: linear-gradient(135deg, rgba(255, 71, 87, 0.1) 0%, rgba(255, 71, 87, 0.02) 100%);
+        border: 2px solid rgba(255, 71, 87, 0.25);
+        border-radius: 24px;
+        padding: 80px 64px;
+        text-align: center;
+        margin: 100px auto;
+        max-width: 900px;
+        box-shadow: 0 0 100px rgba(255, 71, 87, 0.15);
+      }
+
+      .final-cta-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 52px;
+        font-weight: 300;
+        color: #FFFFFF;
+        margin-bottom: 28px;
+        letter-spacing: -0.02em;
+      }
+
+      .final-cta-subtitle {
+        font-size: 21px;
+        color: #CCCCCC;
+        margin-bottom: 48px;
+        line-height: 1.6;
+      }
+
+      .step-list {
+        text-align: left;
+        max-width: 560px;
+        margin: 0 auto 56px;
+      }
+
+      .step-item {
+        font-size: 18px;
+        line-height: 1.7;
+        color: #CCCCCC;
+        margin-bottom: 20px;
+        padding-left: 48px;
+        position: relative;
+      }
+
+      .step-number {
+        position: absolute;
+        left: 0;
+        font-weight: 700;
+        color: #5DFDCB;
+        font-family: 'Courier New', monospace;
+        font-size: 16px;
+      }
+
+      .cta-disclaimer {
+        font-size: 15px;
+        color: #999999;
+        margin-top: 32px;
+        font-style: italic;
+      }
+
+      /* FOOTER */
+      .footer {
+        padding: 60px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        margin-top: 100px;
+      }
+
+      .footer-content {
+        text-align: center;
+      }
+
+      .footer-links {
+        font-size: 13px;
+        color: #666666;
+        line-height: 2;
+      }
+
+      .footer-link {
+        color: #666666;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-link:hover {
+        color: #FF4757;
+      }
+
+      .footer-divider {
+        margin: 0 12px;
+        color: #444444;
+      }
+
+      .footer-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        font-family: inherit;
+        font-size: inherit;
+      }
+
+      /* LEGAL MODALS */
+      .legal-dropdown {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.97);
+        z-index: 10000;
+        overflow-y: auto;
+        padding: 80px 20px;
+        animation: fadeIn 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .legal-content {
+        max-width: 800px;
+        margin: 0 auto;
+        background: rgba(26, 26, 26, 0.98);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 64px;
+        position: relative;
+        color: #CCCCCC;
+        line-height: 1.8;
+        box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
+      }
+
+      .legal-content h2 {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 36px;
+        color: #FFFFFF;
+        margin-bottom: 12px;
+        line-height: 1.3;
+      }
+
+      .legal-content h3 {
+        font-size: 22px;
+        color: #FF4757;
+        margin-top: 40px;
+        margin-bottom: 16px;
+        font-weight: 600;
+      }
+
+      .legal-content p {
+        margin-bottom: 16px;
+        font-size: 15px;
+        line-height: 1.8;
+      }
+
+      .legal-content ul {
+        margin: 16px 0 24px 24px;
+        padding: 0;
+        list-style-type: disc;
+      }
+
+      .legal-content li {
+        margin-bottom: 8px;
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .close-legal {
+        position: fixed;
+        top: 32px;
+        right: 32px;
+        background: rgba(255, 71, 87, 0.15);
+        border: 1px solid rgba(255, 71, 87, 0.4);
+        color: #FF4757;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        font-size: 22px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10001;
+      }
+
+      .close-legal:hover {
+        background: rgba(255, 71, 87, 0.25);
+        transform: scale(1.1) rotate(90deg);
+      }
+
+      .close-legal:focus {
+        outline: 2px solid rgba(255, 71, 87, 0.6);
+        outline-offset: 3px;
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 1024px) {
+        .hero-title {
+          font-size: 72px;
+        }
+
+        .inclusion-grid,
+        .phase-timeline,
+        .testimonial-grid,
+        .who-for-grid,
+        .walkaway-grid,
+        .clone-showcase {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+
+        .phase-timeline::before {
+          display: none;
+        }
+
+        .trust-badges {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .page-container {
+          padding: 0 24px;
+        }
+
+        .hero-section {
+          padding: 80px 0 100px;
+        }
+
+        .hero-title {
+          font-size: 48px;
+        }
+
+        .hero-subtitle {
+          font-size: 20px;
+        }
+
+        .section-title {
+          font-size: 40px;
+        }
+
+        .btn-primary {
+          padding: 20px 48px;
+          font-size: 13px;
+        }
+
+        .value-card,
+        .inclusion-item,
+        .phase-item,
+        .testimonial-card,
+        .walkaway-card,
+        .clone-showcase {
+          padding: 32px;
+        }
+
+        .founding-hero-card {
+          padding: 40px 32px;
+        }
+
+        .founding-amount {
+          font-size: 36px;
+        }
+
+        .final-cta-section {
+          padding: 56px 32px;
+        }
+
+        .final-cta-title {
+          font-size: 38px;
+        }
+
+        .section-spacing {
+          padding: 80px 0;
+        }
+
+        .trust-badges {
+          grid-template-columns: 1fr;
+          padding: 32px 24px;
+        }
+      }
+    </style>
+
+    <style>
+      @view-transition { navigation: auto; }
+    </style>
+
+    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div class="app-wrapper">
+      <!-- STICKY URGENCY BANNER -->
+      <div class="urgency-banner">
+        ⏰ BLACK FRIDAY ENDS DEC 8TH • ONLY 12 FOUNDING SPOTS LEFT •
+        <a href="https://shopanova-bloom.my.canva.site/parallelyou-glassmorphic-opt-in-pop-up-landing-page-canva-ai-prompt" target="_blank" rel="noopener noreferrer">SECURE YOUR SPOT →</a>
+      </div>
+
+      <!-- HEADER -->
+      <header class="header">
+        <div class="page-container">
+          <div class="header-inner">
+            <img src="https://i.imgur.com/yRfFYR1.png" alt="ParallelYou™ logo" class="logo-img">
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <!-- HERO -->
+        <section class="hero-section">
+          <div class="page-container narrow-container">
+            <p class="pre-header">
+              <span style="color: #FF4757;">$700M+ BRAND ARCHITECT</span>
+              •
+              <span style="color: #5DFDCB;">TRUSTED BY 100+ FOUNDERS</span>
+              • LINKEDIN CERTIFIED MARKETING INSIDER
+            </p>
+
+            <h1 class="hero-title" id="main-headline">
+              Clone Yourself. Scale Your Authority. Never Burn Out.
+            </h1>
+
+            <p class="hero-subtitle" id="hero-subtitle">
+              Build your AI powered EchoClone™ in 6 weeks so your expertise works 24/7 without you.
+            </p>
+
+            <div class="cta-wrapper">
+              <a
+                href="https://shopanova-bloom.my.canva.site/parallelyou-glassmorphic-opt-in-pop-up-landing-page-canva-ai-prompt"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary"
+                id="cta-button"
+              >
+                SEE IF YOU QUALIFY
+              </a>
+            </div>
+
+            <p style="font-size: 13px; color: #999999; margin-top: 16px; font-weight: 500; letter-spacing: 0.5px;">
+              <span style="color: #5DFDCB;">✓</span> No credit card required
+              •
+              <span style="color: #5DFDCB;">✓</span> Step 1 of 2
+              •
+              Takes about 60 seconds
+            </p>
+
+            <!-- FOUNDING RATE CARD -->
+            <div class="founding-hero-card">
+              <div class="founding-badge">
+                ⏰ BLACK FRIDAY PRICING ENDS DEC 8TH
+              </div>
+              <div class="founding-amount">
+                Founding Rate Available
+              </div>
+              <p class="founding-subtext">
+                Includes invitation to the exclusive Founding 50 Advanced Session. Full details are shared on the next page.
+              </p>
+
+              <div style="text-align: center; margin-top: 40px;">
+                <a
+                  href="https://shopanova-bloom.my.canva.site/parallelyou-glassmorphic-opt-in-pop-up-landing-page-canva-ai-prompt"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-primary"
+                >
+                  SEE COMPLETE PROGRAM DETAILS
+                </a>
+                <p style="font-size: 13px; color: #999999; margin-top: 16px; font-style: italic;">
+                  No commitment required • Complete transparency
+                </p>
+              </div>
+
+              <div class="founding-metrics">
+                <div class="progress-container">
+                  <div class="progress-header">
+                    <span class="progress-label">Founding Cohort Status</span>
+                    <span class="progress-count">38/50</span>
+                  </div>
+                  <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" style="width: 76%;"></div>
+                  </div>
+                  <div class="progress-footer">
+                    <span class="spots-remaining">12 SPOTS REMAINING</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- WHAT IT DOES -->
+        <section class="page-container section-spacing">
+          <div class="narrow-container">
+            <h2 class="section-title">What ParallelYou™ Actually Does</h2>
+
+            <div class="value-card">
+              <p class="value-text">If you have more ideas than bandwidth.</p>
+              <p class="value-text">If your clarity comes in bursts instead of rhythm.</p>
+              <p class="value-text">If your brand depends on you showing up, but you do not always have the time.</p>
+              <p class="value-text">
+                ParallelYou™ builds a working EchoClone™ of you, your voice, your clarity, your thinking, so you can stay consistent, visible, and decisive without adding more to your workload.
+              </p>
+              <p class="highlight-text">
+                This is identity replication, not content generation.<br><br>
+                It multiplies you, not your tasks.
+              </p>
+            </div>
+
+            <div class="inline-cta-section">
+              <p>See Exactly What You Will Receive</p>
+              <a
+                href="https://shopanova-bloom.my.canva.site/parallelyou-glassmorphic-opt-in-pop-up-landing-page-canva-ai-prompt"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary"
+              >
+                VIEW FULL PROGRAM BREAKDOWN
+              </a>
+              <p class="cta-subtext">
+                Complete deliverables and timeline on the next page • No commitment required
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- WHAT'S INCLUDED -->
+        <section class="page-container section-spacing">
+          <div class="narrow-container">
+            <h2 class="section-title">What Is Included</h2>
+
+            <div class="inclusion-grid">
+              <div class="inclusion-item">
+                <span class="inclusion-icon">🧬</span>
+                <div class="inclusion-number">01</div>
+                <h3 class="inclusion-title">Never Stare at a Blank Page Again</h3>
+                <p class="inclusion-body">
+                  Through Identity Extraction and Clone Mapping™, we capture your tone, patterns, reasoning, and internal logic so your best thinking is repeatable on demand.
+                </p>
+                <p class="inclusion-outcome">Outcome: Your clarity becomes replicable.</p>
+              </div>
+
+              <div class="inclusion-item">
+                <span class="inclusion-icon">⚡</span>
+                <div class="inclusion-number">02</div>
+                <h3 class="inclusion-title">Stop Being the Bottleneck in Your Own Business</h3>
+                <p class="inclusion-body">
+                  Your Authority Engine™ is trained to write, respond, and support decisions with your exact precision so your team can move without waiting on you.
+                </p>
+                <p class="inclusion-outcome">Outcome: No more blank pages. No more burnout.</p>
+              </div>
+
+              <div class="inclusion-item">
+                <span class="inclusion-icon">📋</span>
+                <div class="inclusion-number">03</div>
+                <h3 class="inclusion-title">Show Up Consistently Without the Pressure</h3>
+                <p class="inclusion-body">
+                  Your Strategic Execution Blueprint™ creates a clear 90 day visibility plan built for momentum, not complexity.
+                </p>
+                <p class="inclusion-outcome">Outcome: More presence without more pressure.</p>
+              </div>
+
+              <div class="inclusion-item">
+                <span class="inclusion-icon">🤖</span>
+                <div class="inclusion-number">04</div>
+                <h3 class="inclusion-title">Finally Delegate Without Losing Your Voice</h3>
+                <p class="inclusion-body">
+                  AI Powered Implementation Support™ gives you structured help using your EchoClone™ for messaging and clarity so your team can carry the brand with confidence.
+                </p>
+                <p class="inclusion-outcome">Outcome: You stop carrying the entire brand alone.</p>
+              </div>
+            </div>
+
+            <div class="inline-cta-section" style="margin-top: 72px;">
+              <p>Ready to See Your Complete Implementation Roadmap</p>
+              <a
+                href="https://shopanova-bloom.my.canva.site/parallelyou-glassmorphic-opt-in-pop-up-landing-page-canva-ai-prompt"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary"
+              >
+                ACCESS FULL PROGRAM TIMELINE
+              </a>
+              <p class="cta-subtext">
+                Exact pricing and founding member benefits are revealed on the next page
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- WHO THIS IS NOT FOR -->
+        <section class="page-container section-spacing">
+          <div class="ultra-narrow">
+            <h2 class="section-title">Who This Is Not For</h2>
+
+            <div class="not-for-list">
+              <p class="not-for-item">
+                Those looking for a generic AI writing tool or a generic GPT replacement
+              </p>
+              <p class="not-for-item">
+                People who want instant results without investing time in the mapping process
+              </p>
+              <p class="not-for-item">
+                Founders who are not ready to commit to consistent visibility and thought leadership
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="page-container section-spacing">
+          <div class="narrow-container">
+            <h2 class="section-title">How ParallelYou™ Works</h2>
+
+            <div class="phase-timeline">
+              <div class="phase-item">
+                <div class="phase-badge">PHASE 1</div>
+                <h3 class="phase-title">Decode</h3>
+                <p class="phase-description">
+                  Your identity patterns, authority signals, and voice structure are mapped into a usable system.
+                </p>
+                <p class="phase-role">Your role:</p>
+                <p class="phase-detail">
+                  Share examples of your best work and answer targeted questions about how you think and decide.
+                </p>
+              </div>
+
+              <div class="phase-item">
+                <div class="phase-badge">PHASE 2</div>
+                <h3 class="phase-title">Build</h3>
+                <p class="phase-description">
+                  Your EchoClone™ is trained and calibrated to match your style, voice, and reasoning patterns with precision.
+                </p>
+                <p class="phase-role">Your role:</p>
+                <p class="phase-detail">
+                  Review sample outputs, provide feedback, and refine until it sounds and thinks like you.
+                </p>
+              </div>
+
+              <div class="phase-item">
+                <div class="phase-badge">PHASE 3</div>
+                <h3 class="phase-title">Deploy</h3>
+                <p class="phase-description">
+                  Your EchoClone™ begins supporting your real workflow, from content and DMs to internal and client communication.
+                </p>
+                <p class="phase-role">Your role:</p>
+                <p class="phase-detail">
+                  Use your EchoClone™ daily for content, decisions, and strategic clarity while you stay focused on high leverage moves.
+                </p>
+              </div>
+            </div>
+
+            <!-- WEEK 8 DAY IN THE LIFE -->
+            <div class="day-in-life">
+              <div class="day-in-life-title">
+                Week 8: A Normal Tuesday
+              </div>
+              <p class="day-in-life-text">
+                You wake up and your EchoClone™ has already drafted your newsletter, answered a few client questions, and prepared your LinkedIn post. You review, refine, and publish in 30 minutes instead of 3 hours. Your team has what they need. Your pipeline is moving. You finally have space to think instead of chase tasks. That is what freedom feels like.
+              </p>
+            </div>
+
+            <p style="text-align: center; font-size: 19px; color: #999999; margin-top: 56px; font-style: italic;">
+              This is the simplest path to scaling you, not just what you do.
+            </p>
+
+            <div class="inline-cta-section">
+              <p>See Your Personalized Clone Timeline</p>
+              <a
+                href="https://shopanova-bloom.my.canva.site/parallelyou-glassmorphic-opt-in-pop-up-landing-page-canva-ai-prompt"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary"
+              >
+                GET YOUR IMPLEMENTATION ROADMAP
+              </a>
+              <p class="cta-subtext">
+                Week by week breakdown and deliverables on the next page
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- SOCIAL PROOF -->
+        <section class="page-container section-spacing">
+          <div class="narrow-container">
+            <h2 class="section-title">Results From Real Founders</h2>
+
+            <div class="testimonial-grid">
+              <!-- Justin -->
+              <div class="testimonial-card">
+                <div class="quote-mark">"</div>
+                <p class="testimonial-text">
+                  Went from confused and overwhelmed to scaling intelligently and confidently.
+                </p>
+                <span class="testimonial-initial">J</span><br>
+                <span class="testimonial-name">Justin</span>
+                <span class="testimonial-result">$5k → $60k per month in 5 months</span>
+              </div>
+
+              <!-- Laci -->
+              <div class="testimonial-card">
+                <div class="quote-mark">"</div>
+                <p class="testimonial-text">
+                  She saved our BFCM.
+                </p>
+                <span class="testimonial-initial">L</span><br>
+                <span class="testimonial-name">Laci</span>
+                <span class="testimonial-result">$8k → $50k plus months in under a year</span>
+              </div>
+
+              <!-- Brittney -->
+              <div class="testimonial-card">
+                <div class="quote-mark">"</div>
+                <p class="testimonial-text">
+                  Our best month ever happened after implementing her strategy.
+                </p>
+                <span class="testimonial-initial">B</span><br>
+                <span class="testimonial-name">Brittney</span>
+                <span class="testimonial-result">$0 online → $1k per day in the first weeks</span>
+              </div>
+
+              <!-- Mac -->
+              <div class="testimonial-card">
+                <div class="quote-mark">"</div>
+                <p class="testimonial-text">
+                  I went from drowning in my own success to actually scaling it. Her systems gave me my clarity back.
+                </p>
+                <span class="testimonial-initial">M</span><br>
+                <span class="testimonial-name">Mac</span>
+                <span class="testimonial-result">7k → $152k per month in 6 months</span>
+              </div>
+
+              <!-- Jeff -->
+              <div class="testimonial-card">
+                <div class="quote-mark">"</div>
+                <p class="testimonial-text">
+                  My team finally stopped waiting on me for every decision. We are leaner and moving faster than ever.
+                </p>
+                <span class="testimonial-initial">J</span><br>
+                <span class="testimonial-name">Jeff</span>
+                <span class="testimonial-result">Downsized team, 3x efficiency</span>
+              </div>
+
+              <!-- Heidi -->
+              <div class="testimonial-card">
+                <div class="quote-mark">"</div>
+                <p class="testimonial-text">
+                  I shifted my entire business model, gained location freedom, and cut my hours to 10 per week. This is not just scaling. It is living.
+                </p>
+                <span class="testimonial-initial">H</span><br>
+                <span class="testimonial-name">Heidi</span>
+                <span class="testimonial-result">New model, 10 hour weeks, full freedom</span>
+              </div>
+            </div>
+
+            <div class="inline-cta-section" style="margin-top: 64px;">
+              <p>Join the Founding 50 Who Are Scaling Authority Without Burnout</p>
+              <a
+                href="https://shopanova-bloom.my.canva.site/parallelyou-glassmorphic-opt-in-pop-up-landing-page-canva-ai-prompt"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary"
+              >
+                SEE THE COMPLETE SYSTEM
+              </a>
+              <p class="cta-subtext">
+                Implementation details and exclusive founding member benefits are shared after opt in
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- WHO IT'S FOR -->
+        <section class="page-container section-spacing">
+          <div class="narrow-container">
+            <h2 class="section-title">Who ParallelYou™ Is For</h2>
+
+            <div class="who-for-grid">
+              <div class="who-for-card">
+                <span class="who-for-icon">💼</span>
+                <h3 class="who-for-title">Consultants and Advisors</h3>
+                <p class="who-for-desc">
+                  You turn down work or raise walls because you cannot clone yourself and still protect your standards.
+                </p>
+              </div>
+
+              <div class="who-for-card">
+                <span class="who-for-icon">🚀</span>
+                <h3 class="who-for-title">Founders and Operators</h3>
+                <p class="who-for-desc">
+                  Every decision, Slack thread, and client update waits on your input before anything moves.
+                </p>
+              </div>
+
+              <div class="who-for-card">
+                <span class="who-for-icon">✨</span>
+                <h3 class="who-for-title">Creators and Educators</h3>
+                <p class="who-for-desc">
+                  You know your work changes people, but posting depends on inspiration instead of a system that can run every day.
+                </p>
+              </div>
+            </div>
+
+            <p style="text-align: center; font-size: 19px; color: #999999; margin-top: 56px; font-style: italic;">
+              If your ideas move faster than your bandwidth, this is built for you.
+            </p>
+
+            <div class="inline-cta-section">
+              <p>Confirm Your Eligibility for the Founding 50</p>
+              <a
+                href="https://shopanova-bloom.my.canva.site/parallelyou-glassmorphic-opt-in-pop-up-landing-page-canva-ai-prompt"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary"
+              >
+                SEE IF YOU QUALIFY
+              </a>
+              <p class="cta-subtext">
+                Application details and requirements are on the next page
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- YOU + YOUR CLONE -->
+        <section class="page-container section-spacing">
+          <div class="narrow-container">
+            <h2 class="section-title">You Plus Your EchoClone™</h2>
+
+            <div class="clone-showcase">
+              <div class="clone-text-content">
+                <p class="value-text">
+                  Imagine two versions of you working in parallel.
+                </p>
+                <p class="value-text">
+                  One is the original. Strategic, decisive, fully present where it matters most.
+                </p>
+                <p class="value-text">
+                  The other is your EchoClone™, writing, responding, and creating with your exact voice and thinking patterns.
+                </p>
+                <p class="highlight-text">
+                  This is what ParallelYou™ makes possible.
+                </p>
+              </div>
+
+              <div class="clone-image-grid">
+                <div class="clone-image-wrapper">
+                  <img
+                    src="https://i.imgur.com/V2UeEid.png"
+                    alt="ParallelYou™ founder portrait"
+                    class="clone-image"
+                    onerror="this.style.display='none'; this.alt='Image failed to load';"
+                  >
+                </div>
+                <div class="clone-image-wrapper">
+                  <img
+                    src="https://i.imgur.com/b7qJLq7.png"
+                    alt="ParallelYou™ human and AI clone working together"
+                    class="clone-image"
+                    onerror="this.style.display='none'; this.alt='Image failed to load';"
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- WHAT YOU WALK AWAY WITH -->
+        <section class="page-container section-spacing">
+          <div class="narrow-container">
+            <h2 class="section-title">What You Walk Away With</h2>
+
+            <div class="walkaway-grid">
+              <div class="walkaway-card">
+                <div class="walkaway-number">01</div>
+                <span class="walkaway-icon">🧠</span>
+                <h3 class="walkaway-title">Your Clone, Live</h3>
+                <p class="walkaway-desc">
+                  It thinks like you, decides like you, and writes like you. It works while you sleep and while you are in meetings.
+                </p>
+                <div class="walkaway-before-after">
+                  <p class="ba-item">
+                    <span class="ba-label">Before:</span>
+                    <span class="ba-value">You are the bottleneck</span>
+                  </p>
+                  <p class="ba-item">
+                    <span class="ba-label">After:</span>
+                    <span class="ba-value">You are the blueprint</span>
+                  </p>
+                </div>
+              </div>
+
+              <div class="walkaway-card">
+                <div class="walkaway-number">02</div>
+                <span class="walkaway-icon">⚡</span>
+                <h3 class="walkaway-title">Decision Speed</h3>
+                <p class="walkaway-desc">
+                  Your reasoning patterns are coded into clear rules. Your team can move without waiting on your replies.
+                </p>
+                <div class="walkaway-before-after">
+                  <p class="ba-item">
+                    <span class="ba-label">Before:</span>
+                    <span class="ba-value">Everything waits on you</span>
+                  </p>
+                  <p class="ba-item">
+                    <span class="ba-label">After:</span>
+                    <span class="ba-value">Everything flows through you</span>
+                  </p>
+                </div>
+              </div>
+
+              <div class="walkaway-card">
+                <div class="walkaway-number">03</div>
+                <span class="walkaway-icon">🚀</span>
+                <h3 class="walkaway-title">Authority on Autopilot</h3>
+                <p class="walkaway-desc">
+                  Client work, internal ops, and external visibility all carry your voice without you needing to be everywhere at once.
+                </p>
+                <div class="walkaway-before-after">
+                  <p class="ba-item">
+                    <span class="ba-label">Before:</span>
+                    <span class="ba-value">Inconsistent presence</span>
+                  </p>
+                  <p class="ba-item">
+                    <span class="ba-label">After:</span>
+                    <span class="ba-value">Inevitable momentum</span>
+                  </p>
+                </div>
+              </div>
+
+              <div class="walkaway-card">
+                <div class="walkaway-number">04</div>
+                <span class="walkaway-icon">💡</span>
+                <h3 class="walkaway-title">Clarity That Scales</h3>
+                <p class="walkaway-desc">
+                  Strategic frameworks and operational systems that make your judgment portable, so the business scales without diluting you.
+                </p>
+                <div class="walkaway-before-after">
+                  <p class="ba-item">
+                    <span class="ba-label">Before:</span>
+                    <span class="ba-value">Chaos without you</span>
+                  </p>
+                  <p class="ba-item">
+                    <span class="ba-label">After:</span>
+                    <span class="ba-value">Precision because of you</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="inline-cta-section" style="margin-top: 72px;">
+              <p>Ready to Walk Away With Your Working Clone</p>
+              <a
+                href="https://shopanova-bloom.my.canva.site/parallelyou-glassmorphic-opt-in-pop-up-landing-page-canva-ai-prompt"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary"
+              >
+                ACCESS COMPLETE PROGRAM DETAILS
+              </a>
+              <p class="cta-subtext">
+                Full investment breakdown and founding benefits are on the next page
+              </p>
+            </div>
+
+            <!-- TRUST BADGES -->
+            <div class="trust-badges">
+              <div class="trust-badge">
+                <span class="trust-icon">🔒</span>
+                <span class="trust-label">Secure Payment</span>
+                <span class="trust-value">256 bit SSL encryption</span>
+              </div>
+
+              <div class="trust-badge">
+                <span class="trust-icon">✅</span>
+                <span class="trust-label">100+ Founders</span>
+                <span class="trust-value">Scaled without burning out</span>
+              </div>
+
+              <div class="trust-badge">
+                <span class="trust-icon">💼</span>
+                <span class="trust-label">$700M+ Built</span>
+                <span class="trust-value">Precision systems architect</span>
+              </div>
+
+              <div class="trust-badge">
+                <span class="trust-icon">💪</span>
+                <span class="trust-label">6 Week Support Container</span>
+                <span class="trust-value">If needed, 6 more weeks free</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- GUARANTEE -->
+        <section class="page-container section-spacing">
+          <div class="narrow-container">
+            <div class="guarantee-section">
+              <div class="guarantee-badge-top">
+                GUARANTEED SUPPORT
+              </div>
+              <h3 class="guarantee-title">6 Week Precision Guarantee</h3>
+              <p class="guarantee-text">
+                Your EchoClone™ will mirror your voice and thinking patterns within 6 weeks, or we continue working together for an additional 6 weeks at no extra cost. No refunds, just more support until it is right.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- INVESTMENT -->
+        <section class="page-container section-spacing">
+          <div class="narrow-container">
+            <div class="investment-card">
+              <h2 class="investment-title">Investment and Program Details</h2>
+              <p class="investment-text">
+                Full pricing, payment options, and program logistics are shared on the next page.
+              </p>
+              <p class="investment-text">
+                This two step process gives you every detail you need to make a clear decision and ensures ParallelYou™ is aligned with where you are headed in 2026.
+              </p>
+              <p class="investment-note">
+                Pricing is shared privately with qualified applicants after alignment is confirmed. Founding rates are a micro investment compared to the time and capacity they unlock.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- FINAL CTA -->
+        <section class="page-container">
+          <div class="final-cta-section">
+            <h2 class="final-cta-title">See If ParallelYou™ Is Right For You</h2>
+            <p class="final-cta-subtitle">
+              Black Friday pricing ends December 8th. Only 12 founding spots remain.
+            </p>
+            <p style="font-size: 18px; color: #CCCCCC; margin-bottom: 48px;">
+              The next page includes complete program details, exact pricing breakdown, founding member benefits, and your personalized implementation timeline.
+            </p>
+
+            <a
+              href="https://shopanova-bloom.my.canva.site/parallelyou-glassmorphic-opt-in-pop-up-landing-page-canva-ai-prompt"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-primary"
+              style="font-size: 15px; padding: 26px 72px;"
+            >
+              ACCESS FULL PROGRAM AND PRICING
+            </a>
+
+            <p class="cta-disclaimer">
+              <span style="color: #5DFDCB;">✓</span> No credit card required
+              •
+              <span style="color: #5DFDCB;">✓</span> Complete transparency
+              •
+              <span style="color: #5DFDCB;">✓</span> Founding cohort rates are limited
+            </p>
+
+            <div style="margin-top: 64px; padding-top: 48px; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+              <h3 style="font-size: 24px; font-weight: 600; color: #FFFFFF; margin-bottom: 32px;">
+                What Happens Next
+              </h3>
+              <div class="step-list">
+                <p class="step-item">
+                  <span class="step-number">01</span>
+                  Share your name, email, and which founder avatar you most align with.
+                </p>
+                <p class="step-item">
+                  <span class="step-number">02</span>
+                  Receive a complete pricing breakdown, including founding cohort micro investment levels.
+                </p>
+                <p class="step-item">
+                  <span class="step-number">03</span>
+                  View your 6 week implementation timeline and all deliverables.
+                </p>
+                <p class="step-item">
+                  <span class="step-number">04</span>
+                  See exclusive Founding 50 member benefits worth thousands in strategic leverage.
+                </p>
+                <p class="step-item">
+                  <span class="step-number">05</span>
+                  Secure your spot with one click if it is the right fit.
+                </p>
+              </div>
+              <p style="font-size: 17px; color: #999999; margin-top: 32px; font-style: italic;">
+                Complete transparency. No commitment required. No credit card needed.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- EXIT INTENT POPUP -->
+      <div class="exit-popup-overlay" id="exit-popup">
+        <div class="exit-popup">
+          <button class="exit-close" aria-label="Close" id="close-exit">✕</button>
+          <span class="exit-emoji">⏰</span>
+          <h2 class="exit-title">Wait. Your Founding Rate Is About To Change</h2>
+          <p class="exit-text">
+            Founding Cohort rates increase after December 8th. Rates 20x soon.
+          </p>
+          <p class="exit-text" style="font-size: 16px; color: #5DFDCB; margin-bottom: 40px;">
+            Access complete pricing breakdown plus founding member bonuses on the next page.
+          </p>
+          <a
+            href="https://shopanova-bloom.my.canva.site/parallelyou-glassmorphic-opt-in-pop-up-landing-page-canva-ai-prompt"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="exit-cta"
+          >
+            YES, I WANT TO SEE THE DETAILS
+          </a>
+          <p class="exit-disclaimer">
+            No credit card required • Complete transparency
+          </p>
+        </div>
+      </div>
+
+      <!-- MOBILE STICKY CTA -->
+      <div class="mobile-sticky-cta">
+        <a
+          href="https://shopanova-bloom.my.canva.site/parallelyou-glassmorphic-opt-in-pop-up-landing-page-canva-ai-prompt"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          SEE FULL DETAILS →
+        </a>
+      </div>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+        <div class="page-container">
+          <div class="footer-content">
+            <p class="footer-links" style="margin-bottom: 24px; font-size: 14px;">
+              By continuing, you agree to our
+              <button class="footer-link footer-button" id="terms-btn" style="text-decoration: underline;">Terms</button>
+              and
+              <button class="footer-link footer-button" id="privacy-btn" style="text-decoration: underline;">Privacy Policy</button>.
+            </p>
+            <p class="footer-links">
+              © 2025 Dixie Briseno. All Rights Reserved.<br>
+              ParallelYou™ | Authority Scale™ | EchoClone™ | SelfOS™<br>
+              <button class="footer-link footer-button" id="terms-btn-footer">Terms</button>
+              <span class="footer-divider">•</span>
+              <button class="footer-link footer-button" id="privacy-btn-footer">Privacy</button>
+              <span class="footer-divider">•</span>
+              <button class="footer-link footer-button" id="disclaimer-btn">Disclaimer</button>
+              <span class="footer-divider">•</span>
+              <button class="footer-link footer-button" id="refund-btn">Refunds</button>
+              <span class="footer-divider">•</span>
+              <button class="footer-link footer-button" id="dmca-btn">DMCA</button><br>
+              <a href="mailto:weare@authorityscale.com" class="footer-link">weare@authorityscale.com</a>
+            </p>
+          </div>
+        </div>
+      </footer>
+
+      <!-- LEGAL MODALS (CONDENSED PLACEHOLDERS) -->
+      <div id="terms-dropdown" class="legal-dropdown" style="display: none;">
+        <div class="legal-content">
+          <button class="close-legal" aria-label="Close" id="close-terms">✕</button>
+          <h2>TERMS OF SERVICE</h2>
+          <p>Last Updated: December 5, 2025</p>
+          <h3>1. Acceptance</h3>
+          <p>By using any ParallelYou™ service, you agree to these terms.</p>
+          <h3>2. No Guarantees of Outcome</h3>
+          <p>Business, income, or other results are not guaranteed. Your results depend on your own effort, market conditions, and implementation.</p>
+          <h3>3. Intellectual Property</h3>
+          <p>All materials, frameworks, and systems are protected. You may not copy, distribute, or resell them without written permission.</p>
+        </div>
+      </div>
+
+      <div id="privacy-dropdown" class="legal-dropdown" style="display: none;">
+        <div class="legal-content">
+          <button class="close-legal" aria-label="Close" id="close-privacy">✕</button>
+          <h2>PRIVACY POLICY</h2>
+          <p>Last Updated: December 5, 2025</p>
+          <h3>1. Information We Collect</h3>
+          <p>
+            We collect your name, email, payment data, and usage analytics when you interact with ParallelYou™ pages, forms, and services.
+          </p>
+          <h3>2. How We Use Your Data</h3>
+          <p>
+            Your data is used to provide services, process payments, improve your experience, and communicate relevant updates.
+          </p>
+          <h3>3. Your Rights</h3>
+          <p>
+            You may request access to or deletion of your personal data by emailing
+            <a href="mailto:weare@authorityscale.com" style="color: #FF4757;">weare@authorityscale.com</a>.
+          </p>
+        </div>
+      </div>
+
+      <div id="dmca-dropdown" class="legal-dropdown" style="display: none;">
+        <div class="legal-content">
+          <button class="close-legal" aria-label="Close" id="close-dmca">✕</button>
+          <h2>DMCA NOTICE</h2>
+          <p>Last Updated: December 5, 2025</p>
+          <p>
+            If you believe any content associated with ParallelYou™ infringes your copyright, please send a detailed notice to
+            <a href="mailto:weare@authorityscale.com" style="color: #FF4757;">weare@authorityscale.com</a>
+            with the material in question and proof of ownership.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Sticky urgency banner
+      window.addEventListener('scroll', function() {
+        const banner = document.querySelector('.urgency-banner');
+        if (banner) {
+          if (window.scrollY > 600) {
+            banner.classList.add('visible');
+          } else {
+            banner.classList.remove('visible');
+          }
+        }
+      });
+
+      // Exit intent popup
+      let exitIntentShown = false;
+
+      function showExitPopup() {
+        if (!exitIntentShown) {
+          const popup = document.getElementById('exit-popup');
+          if (popup) {
+            popup.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            exitIntentShown = true;
+          }
+        }
+      }
+
+      function hideExitPopup() {
+        const popup = document.getElementById('exit-popup');
+        if (popup) {
+          popup.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      }
+
+      if (window.innerWidth > 768) {
+        document.addEventListener('mouseleave', function(e) {
+          if (e.clientY <= 0) {
+            showExitPopup();
+          }
+        });
+      }
+
+      const closeBtn = document.getElementById('close-exit');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', hideExitPopup);
+      }
+
+      const exitOverlay = document.getElementById('exit-popup');
+      if (exitOverlay) {
+        exitOverlay.addEventListener('click', function(e) {
+          if (e.target === exitOverlay) {
+            hideExitPopup();
+          }
+        });
+      }
+
+      window.addEventListener('resize', function() {
+        if (window.innerWidth <= 768 && exitIntentShown) {
+          hideExitPopup();
+        }
+      });
+
+      // Legal modal handlers
+      const modals = {
+        terms: { btn: ['terms-btn', 'terms-btn-footer', 'disclaimer-btn', 'refund-btn'], modal: 'terms-dropdown', close: 'close-terms' },
+        privacy: { btn: ['privacy-btn', 'privacy-btn-footer'], modal: 'privacy-dropdown', close: 'close-privacy' },
+        dmca: { btn: ['dmca-btn'], modal: 'dmca-dropdown', close: 'close-dmca' }
+      };
+
+      Object.values(modals).forEach(m => {
+        m.btn.forEach(id => {
+          const btn = document.getElementById(id);
+          if (btn) btn.addEventListener('click', () => {
+            document.getElementById(m.modal).style.display = 'block';
+            document.body.style.overflow = 'hidden';
+          });
+        });
+
+        const closeBtn = document.getElementById(m.close);
+        const modal = document.getElementById(m.modal);
+
+        if (closeBtn) closeBtn.addEventListener('click', () => {
+          modal.style.display = 'none';
+          document.body.style.overflow = '';
+        });
+
+        if (modal) modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+          }
+        });
+      });
+
+      // Element SDK config
+      const defaultConfig = {
+        background_color: "#000000",
+        surface_color: "#1A1A1A",
+        text_color: "#CCCCCC",
+        primary_action_color: "#FF4757",
+        secondary_action_color: "#5DFDCB",
+        font_family: "Inter",
+        font_size: 16,
+        main_headline: "Clone Yourself. Scale Your Authority. Never Burn Out.",
+        hero_subtitle: "Build your AI powered EchoClone™ in 6 weeks so your expertise works 24/7 without you.",
+        cta_button: "SEE IF YOU QUALIFY"
+      };
+
+      async function onConfigChange(config) {
+        const customFont = config.font_family || defaultConfig.font_family;
+        const baseFontStack = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        const baseSize = config.font_size || defaultConfig.font_size;
+
+        document.body.style.fontFamily = customFont + ", " + baseFontStack;
+        document.body.style.backgroundColor = config.background_color || defaultConfig.background_color;
+        document.body.style.color = config.text_color || defaultConfig.text_color;
+
+        const appWrapper = document.querySelector('.app-wrapper');
+        if (appWrapper) appWrapper.style.backgroundColor = config.background_color || defaultConfig.background_color;
+
+        const mainHeadline = document.getElementById('main-headline');
+        if (mainHeadline) {
+          mainHeadline.textContent = config.main_headline || defaultConfig.main_headline;
+          mainHeadline.style.fontSize = (baseSize * 6) + "px";
+        }
+
+        const heroSubtitle = document.getElementById('hero-subtitle');
+        if (heroSubtitle) {
+          heroSubtitle.textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+          heroSubtitle.style.fontSize = (baseSize * 1.625) + "px";
+          heroSubtitle.style.color = config.text_color || defaultConfig.text_color;
+        }
+
+        const ctaButtons = document.querySelectorAll('.btn-primary');
+        ctaButtons.forEach(btn => {
+          if (btn.id === 'cta-button') btn.textContent = config.cta_button || defaultConfig.cta_button;
+          btn.style.background = config.primary_action_color || defaultConfig.primary_action_color;
+        });
+      }
+
+      function mapToCapabilities(config) {
+        return {
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.primary_action_color || defaultConfig.primary_action_color,
+              set: (value) => {
+                config.primary_action_color = value;
+                window.elementSdk.setConfig({ primary_action_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+              set: (value) => {
+                config.secondary_action_color = value;
+                window.elementSdk.setConfig({ secondary_action_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        };
+      }
+
+      function mapToEditPanelValues(config) {
+        return new Map([
+          ["main_headline", config.main_headline || defaultConfig.main_headline],
+          ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle],
+          ["cta_button", config.cta_button || defaultConfig.cta_button]
+        ]);
+      }
+
+      if (window.elementSdk) {
+        window.elementSdk.init({
+          defaultConfig,
+          onConfigChange,
+          mapToCapabilities,
+          mapToEditPanelValues
+        });
+      }
+    </script>
+  </body>
+</html>
