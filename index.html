@@ -93,8 +93,58 @@
         max-width: 720px;
         margin: 0 auto;
       }
+      /* MOBILE SCROLL STABILITY FIX (prevents left-right "floating" / horizontal bounce) */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden; /* fallback */
+  overscroll-behavior-x: none;
+  -webkit-text-size-adjust: 100%;
+  -webkit-overflow-scrolling: touch;
+}
 
-      /* HEADER */
+/* Modern browsers: hard-stop horizontal overflow without affecting layout */
+@supports (overflow-x: clip) {
+  html,
+  body {
+    overflow-x: clip;
+  }
+}
+
+body {
+  touch-action: pan-y;
+}
+
+/* Ensure no media can exceed viewport width */
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Belt + suspenders for mobile browsers */
+.app-wrapper,
+header,
+main,
+section,
+footer {
+  max-width: 100vw;
+  overflow-x: clip;
+}
+
+/* Prevent fixed overlays/CTAs from ever creating sideways overflow on iOS */
+.exit-overlay,
+.legal-overlay,
+.mobile-sticky-cta {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: clip;
+}
+
+/* HEADER */
       .header {
         position: sticky;
         top: 0;
@@ -2255,3 +2305,4 @@
     </script>
   </body>
 </html>
+
