@@ -126,11 +126,7 @@ canvas {
 }
 
 /* Belt + suspenders for mobile browsers */
-.app-wrapper,
-header,
-main,
-section,
-footer {
+.app-wrapper {
   max-width: 100vw;
   overflow-x: clip;
 }
@@ -143,6 +139,7 @@ footer {
   max-width: 100vw;
   overflow-x: clip;
 }
+
 
 /* HEADER */
       .header {
@@ -595,22 +592,28 @@ footer {
         font-style: italic;
       }
 
-      /* MOBILE TEXT WRAP SAFETY (prevents long CTA lines from overflowing on small screens) */
-      .inline-cta p,
-      .inline-cta .inline-cta-sub {
-        overflow-wrap: anywhere;
-        word-break: break-word;
-      }
-
-      /* Allow long inline CTA button labels to wrap only inside inline CTAs on small screens */
+            /* INLINE CTA MOBILE FIT (prevents long button labels from overflowing without ugly word breaks) */
       @media (max-width: 480px) {
-        .inline-cta .btn-primary {
-          white-space: normal;
-          text-align: center;
-          line-height: 1.2;
+        .inline-cta {
           padding-left: 18px;
           padding-right: 18px;
         }
+
+        .inline-cta p,
+        .inline-cta .inline-cta-sub {
+          overflow-wrap: break-word;
+          word-break: normal;
+        }
+
+        .inline-cta .btn-primary {
+          white-space: normal;
+          text-align: center;
+          line-height: 1.25;
+          padding-left: 18px;
+          padding-right: 18px;
+        }
+      }
+
       }
 
       /* WHAT IS INCLUDED */
@@ -1254,7 +1257,7 @@ footer {
       }
 
       /* RESPONSIVE */
-      
+      @media (min-width: 768px) {
         .page-container {
           padding: 0 32px;
         }
